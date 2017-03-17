@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# Executes supplied command if the current branch is one of the target branches.
+#
+# Usage:
+#     gatekeeper "<current branch>" "<command>" ["<comma separated list of target branches>"]
+#
+# Example:
+#     gatekeeper "$CIRCLE_BRANCH" "echo 'Hello'" ["master,stage,live"]
+
+if [ -n $3 ]; then
+    # Default to these..
+    branches=("master" "stage" "live")
+else
+    branches=$(echo $3 | tr "," "\n")
+fi
+
+for branch in "${branches[@]}"; do
+    if [[ $1 == "$branch" ]]; then
+        eval "$2"
+        exit "$?"
+    fi
+done;
+
+printf "Gatekeeper: SKIPPING as branch $1 not whitelisted.\n"

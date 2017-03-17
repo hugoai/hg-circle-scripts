@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Syncs the built directory to the supplied S3 path.
+#
+# Usage:
+#     ui-cdn-deploy "<distribution id>"
+#
+# Example:
+#     ui-cdn-deploy "E3QVKP0HM4DUY4"
+
+./install-awscli
+
+aws configure set preview.cloudfront true
+aws cloudfront create-invalidation --distribution-id "$1" --paths /index.html
