@@ -16,4 +16,6 @@ if [ -n $region ]; then
 fi
 
 yarn run build
+
+# @todo: Once S3 object tagging is out of beta, tag all synced objects with env/purpose
 aws s3 sync build/ "s3://$1" --region $region
