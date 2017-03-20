@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# Syncs the built directory to the supplied S3 path.
+#
+# Usage:
+#     ui-deploy "<S3 path>" ["<region>"]
+#
+# Example:
+#     ui-deploy "hg-accounts-ui/master" "us-west-2"
+
+./install-awscli
+
+region=$2
+if [ -n $region ]; then
+    region="us-west-2"
+fi
+
+yarn run build
+
+# @todo: Once S3 object tagging is out of beta, tag all synced objects with env/purpose
+aws s3 sync build/ "s3://$1" --region $region

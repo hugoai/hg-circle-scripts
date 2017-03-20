@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Runs the front-end tests
+#
+# Usage:
+#     ui-tests
+
+yarn run eslint .
+yarn test

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Installs the AWS CLI tools
+#
+# Usage:
+#     install-awscli
+
+pip install --upgrade awscli
