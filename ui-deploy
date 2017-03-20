@@ -3,10 +3,10 @@
 # Syncs the built directory to the supplied S3 path.
 #
 # Usage:
-#     ui-deploy "<S3 path>" ["<region>"]
+#     ui-deploy "<S3 path>" "<current branch>" ["<comma separated list of ignored branches>"] ["<region>"]
 #
 # Example:
-#     ui-deploy "hg-accounts-ui/master" "us-west-2"
+#     ui-deploy "hg-accounts-ui/master" "master" "master,stage,live" "us-west-2"
 
 ##
 # Log to the CLI with the current timestamp
@@ -18,9 +18,23 @@ log() {
 
 sh ./hg-circle-scripts/install-awscli
 
-region=$2
+ignored_branches=$3
+if [ -n $ignored_branches ]; then
+    ignored_branches=("master" "stage" "live")
+else
+    ignored_branches=$(echo $3 | tr "," "\n")
+fi
+
+region=$4
 if [ -n $region ]; then
     region="us-west-2"
+fi
+
+# Set the static path for feature branches
+if [[ "${ignored_branches[*]}" != *"$2"* ]]; then
+    # https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#building-for-relative-paths
+    S3_URL="http://${1}.s3-website-{$region}.amazonaws.com/${2}"
+    jq 'setpath(["homepage"]; ${S3_URL})' "package.json" > "package.json"
 fi
 
 log "Building static files"
@@ -28,4 +42,4 @@ yarn run build
 
 # @todo: Once S3 object tagging is out of beta, tag all synced objects with env/purpose
 log "Deploying to S3"
-aws s3 sync build/ "s3://$1" --region $region
+aws s3 sync build/ "s3://${1}/${2}" --region $region
