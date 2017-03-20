@@ -5,7 +5,22 @@
 # Usage:
 #     ui-tests
 
+##
+# Log to the CLI with the current timestamp
+# @param: message
+##
+log() {
+    echo "$(date "+%Y-%m-%d %H:%M:%S"): $1"
+}
+
+log "Installing yarn"
 npm install -g yarn
+
+log "Installing dependencies"
 yarn  # Install dependencies first
+
+log "Running ESLinter"
 yarn run eslint .
+
+log "Running tests"
 yarn test

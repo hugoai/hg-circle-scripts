@@ -8,6 +8,15 @@
 # Example:
 #     ui-deploy "hg-accounts-ui/master" "us-west-2"
 
+##
+# Log to the CLI with the current timestamp
+# @param: message
+##
+log() {
+    echo "$(date "+%Y-%m-%d %H:%M:%S"): $1"
+}
+
+log "Installing AWS CLI"
 sh ./hg-circle-scripts/install-awscli
 
 region=$2
@@ -15,7 +24,9 @@ if [ -n $region ]; then
     region="us-west-2"
 fi
 
+log "Building static files"
 yarn run build
 
 # @todo: Once S3 object tagging is out of beta, tag all synced objects with env/purpose
+log "Deploying to S3"
 aws s3 sync build/ "s3://$1" --region $region
