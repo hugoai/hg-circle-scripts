@@ -8,7 +8,7 @@
 # Example:
 #     ui-deploy "hg-accounts-ui/master" "us-west-2"
 
-./install-awscli
+sh ./hg-circle-scripts/install-awscli
 
 region=$2
 if [ -n $region ]; then
