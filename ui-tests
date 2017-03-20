@@ -5,6 +5,7 @@
 # Usage:
 #     ui-tests
 
+npm install -g yarn
 yarn  # Install dependencies first
 yarn run eslint .
 yarn test
