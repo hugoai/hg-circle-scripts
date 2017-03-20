@@ -18,8 +18,8 @@ log() {
 
 sh ./hg-circle-scripts/install-awscli
 
-ignored_branches=$3
-if [ -n $ignored_branches ]; then
+if [ -n $3 ]; then
+    # Default to these..
     ignored_branches=("master" "stage" "live")
 else
     ignored_branches=$(echo $3 | tr "," "\n")
