@@ -16,7 +16,6 @@ log() {
     echo "$(date "+%Y-%m-%d %H:%M:%S"): $1"
 }
 
-log "Installing AWS CLI"
 sh ./hg-circle-scripts/install-awscli
 
 log "Creating CDN invalidations"

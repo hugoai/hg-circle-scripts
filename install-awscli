@@ -3,6 +3,25 @@
 # Installs the AWS CLI tools
 #
 # Usage:
-#     install-awscli
+#     install-awscli ["us-west-2"]
 
+##
+# Log to the CLI with the current timestamp
+# @param: message
+##
+log() {
+    echo "$(date "+%Y-%m-%d %H:%M:%S"): $1"
+}
+
+region=$1
+if [ -n $region ]; then
+    region="us-west-2"
+fi
+
+log "Installing AWS CLI"
 pip install --upgrade awscli
+
+log "Setting AWS defaults (region, output format)"
+aws --version
+aws configure set default.region $region
+aws configure set default.output json
