@@ -25,3 +25,6 @@ log "Setting AWS defaults (region, output format)"
 aws --version
 aws configure set default.region $region
 aws configure set default.output json
+
+log "Print AWS credentials"
+cat ~/.aws/credentials
