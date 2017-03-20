@@ -34,7 +34,7 @@ fi
 if [[ "${ignored_branches[*]}" != *"$2"* ]]; then
     # https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#building-for-relative-paths
     S3_URL="http://${1}.s3-website-{$region}.amazonaws.com/${2}"
-    echo "$(jq 'setpath(["homepage"]; \""${S3_URL}"\")' "package.json")" > "package.json"
+    echo $(jq "setpath([\"homepage\"]; \"${S3_URL}\")" "package.json") > "package.json"
 fi
 
 log "Building static files"
