@@ -8,7 +8,7 @@
 # Example:
 #     gatekeeper "$CIRCLE_BRANCH" "echo 'Hello'" ["master,stage,live"]
 
-if [ -n $3 ]; then
+if [ -z $3 ]; then
     # Default to these..
     branches=("master" "stage" "live")
 else
