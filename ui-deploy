@@ -6,7 +6,7 @@
 #     ui-deploy "<S3 path>" "<current branch>" ["<comma separated list of ignored branches>"] ["<region>"]
 #
 # Example:
-#     ui-deploy "hg-accounts-ui/master" "master" "master,stage,live" "us-west-2"
+#     ui-deploy "hg-cf-accounts-ui" "master" "master,stage,live" "us-west-2"
 
 ##
 # Log to the CLI with the current timestamp
