@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -e
+
+##
+# Log to the CLI with the current timestamp
+# @param: message
+##
+log() {
+    echo "$(date "+%Y-%m-%d %H:%M:%S"): $1"
+}
+
+##
+# Actually call the remote 
+# @param: sql
+##
+execute_sql() {
+    # Best way to get the master password to postgres it seems.
+    export PGPASSWORD=$DB_MASTER_PASSWORD
+
+    psql -c "$1" \
+        -h "$DB_HOST" \
+        -U "$DB_MASTER_USERNAME" \
+        -w  # Don't prompt for a password, CI doesn't have a user to enter it!
+}

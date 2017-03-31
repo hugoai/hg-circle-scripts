@@ -16,7 +16,7 @@ log() {
     echo "$(date "+%Y-%m-%d %H:%M:%S"): $1"
 }
 
-sh ./hg-circle-scripts/install-awscli
+bash ./hg-circle-scripts/install-awscli
 
 log "Creating CDN invalidations"
 aws configure set preview.cloudfront true
