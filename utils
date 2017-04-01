@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -e
+
+# more bash-friendly output for jq
+JQ="jq --raw-output --exit-status"
+
+##
+# Log to the CLI with the current timestamp
+# @param: message
+##
+log() {
+    echo "$(date "+%Y-%m-%d %H:%M:%S"): $1"
+}

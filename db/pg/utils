@@ -2,14 +2,6 @@
 set -e
 
 ##
-# Log to the CLI with the current timestamp
-# @param: message
-##
-log() {
-    echo "$(date "+%Y-%m-%d %H:%M:%S"): $1"
-}
-
-##
 # Actually call the remote 
 # @param: sql
 ##

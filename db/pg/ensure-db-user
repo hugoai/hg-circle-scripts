@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
+set -e
 
 # Load shared utils
+. ./hg-circle-scripts/utils
 . ./hg-circle-scripts/db/pg/utils
 
 ##

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 # Syncs the built directory to the supplied S3 path.
 #
@@ -8,14 +9,8 @@
 # Example:
 #     ui-cdn-deploy "E3QVKP0HM4DUY4"
 
-##
-# Log to the CLI with the current timestamp
-# @param: message
-##
-log() {
-    echo "$(date "+%Y-%m-%d %H:%M:%S"): $1"
-}
-
+# Load shared utils
+. ./hg-circle-scripts/utils
 bash ./hg-circle-scripts/install-awscli
 
 log "Creating CDN invalidations"

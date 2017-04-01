@@ -1,17 +1,13 @@
 #!/usr/bin/env bash
+set -e
 
 # Installs the AWS CLI tools
 #
 # Usage:
 #     install-awscli ["us-west-2"]
 
-##
-# Log to the CLI with the current timestamp
-# @param: message
-##
-log() {
-    echo "$(date "+%Y-%m-%d %H:%M:%S"): $1"
-}
+# Load shared utils
+. ./hg-circle-scripts/utils
 
 region=$1
 if [ -n $region ]; then
