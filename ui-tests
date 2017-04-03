@@ -1,17 +1,13 @@
 #!/usr/bin/env bash
+set -e
 
 # Runs the front-end tests
 #
 # Usage:
 #     ui-tests
 
-##
-# Log to the CLI with the current timestamp
-# @param: message
-##
-log() {
-    echo "$(date "+%Y-%m-%d %H:%M:%S"): $1"
-}
+# Load shared utils
+. ./hg-circle-scripts/utils
 
 log "Installing yarn"
 npm install -g yarn

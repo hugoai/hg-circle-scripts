@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+# Load shared utils
+. ./hg-circle-scripts/utils
+. ./hg-circle-scripts/db/pg/utils
+
+##
+# Ensures we have a postgres database, suppressing duplicate errors if needs be.
+##
+
+# Check all args are passed
+if [ $# -ne 5 ]; then
+    echo "Must supply all arguments. Exiting..."
+    echo 'Usage: ensure-pg-db "<host prefix>" "<master username>" "<master password>" "<db name>"'
+    echo ''
+    echo 'eg. ensure-pg-db "api-dev" "postgres" "abc123" "api-db"'
+    exit 1
+fi
+
+DB_HOST_PREFIX=$1
+DB_MASTER_USERNAME=$2
+DB_MASTER_PASSWORD=$3
+DB_NAME=$4
+DB_HOST="${DB_HOST_PREFIX}.pg.hugoai.com"  # Keeps things consistently applied!
+
+# Best way to get the master password to postgres it seems.
+export PGPASSWORD=$DB_MASTER_PASSWORD
+
+log "Creating database \"${DB_NAME}\" on host \"${DB_HOST}\""
+
+read -d '' sql << EOF
+DO \$\$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_database WHERE datname = '${DB_NAME}';) THEN
+        CREATE DATABASE ${DB_NAME};
+    END IF;
+END
+\$\$;
+EOF
+execute_sql "$sql"
+
+log "Successfully created database \"${DB_NAME}\" on host \"${DB_HOST}\""
