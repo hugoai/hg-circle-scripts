@@ -10,11 +10,11 @@ set -e
 ##
 
 # Check all args are passed
-if [ $# -ne 5 ]; then
+if [ $# -ne 7 ]; then
     echo "Must supply all arguments. Exiting..."
-    echo 'Usage: ensure-pg-db "<host prefix>" "<master username>" "<master password>" "<db name>" "<group name>"'
+    echo 'Usage: ensure-pg-db "<host prefix>" "<master username>" "<master password>" "<db name>" "<group name>" "<csv list of schema privileges>" "<csv list of db privileges>"'
     echo ''
-    echo 'Eg. ensure-pg-db-group "api-dev" "postgres" "abc123" "api-db" "read"'
+    echo 'Eg. ensure-pg-db-group "api-dev" "postgres" "abc123" "api-db" "read" "SELECT,INSERT,UPDATE,DELETE" "CREATE,"'
     exit 1
 fi
 
@@ -23,8 +23,12 @@ DB_MASTER_USERNAME=$2
 DB_MASTER_PASSWORD=$3
 DB_NAME=$4
 GROUP_NAME=$5
+CSV_SCHEMA_PRIVILEGES=$6
+CSV_DB_PRIVILEGES=$7
 
 DB_HOST="${DB_HOST_PREFIX}.pg.hugoai.com"  # Keeps things consistently applied!
+SCHEMA_PRIVILEGES=$(echo $CSV_SCHEMA_PRIVILEGES | tr "," "\n")  # Split into iterable array.
+DB_PRIVILEGES=$(echo $CSV_DB_PRIVILEGES | tr "," "\n")  # Split into iterable array.
 
 log "Creating group \"${GROUP_NAME}\" on host \"${DB_HOST}\""
 
@@ -39,3 +43,19 @@ END
 \$\$;
 EOF
 execute_sql "$sql"
+
+log "Successfully handled ensuring group \"${GROUP_NAME}\" on host \"${DB_HOST}\""
+
+for PRIVILEGE in $SCHEMA_PRIVILEGES; do
+    # Grant statements return exit_code=0 even if duplicate membership detected :D
+    execute_sql "GRANT ${PRIVILEGE} ON ALL TABLES TO ${GROUP_NAME} IN SCHEMA public;"
+    log "Successfully set privilege \"${PRIVILEGE}\" for group \"${GROUP_NAME}\" on host \"${DB_HOST}\""
+done
+
+for PRIVILEGE in $DB_PRIVILEGES; do
+    # Grant statements return exit_code=0 even if duplicate membership detected :D
+    execute_sql "GRANT ${PRIVILEGE} TO ${GROUP_NAME} ON DATABASE ${DB_NAME};"
+    log "Successfully set privilege \"${PRIVILEGE}\" for group \"${GROUP_NAME}\" on host \"${DB_HOST}\""
+done
+
+log "Successfully handled ensuring \"${GROUP_NAME}\" for host \"${DB_HOST}\""
