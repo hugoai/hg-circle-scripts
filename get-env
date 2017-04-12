@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -e
+
+# Translates the circle branch to a desired deployment env.
+#
+# Usage:
+#     get-env "<circle branch>"
+#
+# Example:
+#     get-env "master"
+
+circle_branch=$1
+
+env_branches=("live" "stage")
+env=$(if [[ "${env_branches[*]}" == *"$circle_branch"* ]]; then echo $circle_branch; else echo 'dev'; fi)
+
+echo $env
