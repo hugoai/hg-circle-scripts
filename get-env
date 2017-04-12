@@ -14,4 +14,5 @@ circle_branch=$1
 env_branches=("live" "stage")
 env=$(if [[ "${env_branches[*]}" == *"$circle_branch"* ]]; then echo $circle_branch; else echo 'dev'; fi)
 
-echo $env
+# Use printf so we don't append a newline.
+printf $env
