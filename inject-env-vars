@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -e
+
+# Injects the env vars defined in the script 
+#
+# Usage:
+#     inject-env-vars "<circle branch>" "<path to cfg script>"
+#
+# Example:
+#     inject-env-vars "master" "./config/env/"
+
+circle_branch=$1
+cfg_base_path=$2
+
+env_branches=("live" "stage")
+env=$(if [[ "${env_branches[*]}" == *"$circle_branch"* ]]; then echo $circle_branch; else echo 'dev'; fi)
+
+# Build the env path.
+env_path="${cfg_base_path}${env}"
+
+# Finally load the env vars in
+. $env_path
