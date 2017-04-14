@@ -48,13 +48,13 @@ log "Successfully handled ensuring group \"${GROUP_NAME}\" on host \"${DB_HOST}\
 
 for PRIVILEGE in $SCHEMA_PRIVILEGES; do
     # Grant statements return exit_code=0 even if duplicate membership detected :D
-    execute_sql "GRANT ${PRIVILEGE} ON ALL TABLES TO ${GROUP_NAME} IN SCHEMA public;"
+    execute_sql "GRANT ${PRIVILEGE} ON ALL TABLES IN SCHEMA public TO ${GROUP_NAME};"
     log "Successfully set privilege \"${PRIVILEGE}\" for group \"${GROUP_NAME}\" on host \"${DB_HOST}\""
 done
 
 for PRIVILEGE in $DB_PRIVILEGES; do
     # Grant statements return exit_code=0 even if duplicate membership detected :D
-    execute_sql "GRANT ${PRIVILEGE} TO ${GROUP_NAME} ON DATABASE ${DB_NAME};"
+    execute_sql "GRANT ${PRIVILEGE} ON DATABASE ${DB_NAME} TO ${GROUP_NAME};"
     log "Successfully set privilege \"${PRIVILEGE}\" for group \"${GROUP_NAME}\" on host \"${DB_HOST}\""
 done
 

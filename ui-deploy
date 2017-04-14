@@ -4,10 +4,10 @@ set -e
 # Syncs the built directory to the supplied S3 path.
 #
 # Usage:
-#     ui-deploy "<S3 path>" "<current branch>" ["<comma separated list of ignored branches>"] ["<region>"]
+#     ui-deploy "<S3 URL>" "<current branch>" ["<comma separated list of ignored branches>"] ["<region>"]
 #
 # Example:
-#     ui-deploy "hg-cf-accounts-ui" "master" "master,stage,live" "us-west-2"
+#     ui-deploy "https://web-dev.hugoai.com/HGA-1234" "master" "master,stage,live" "us-west-2"
 
 # Load shared utils
 . ./hg-circle-scripts/utils
@@ -31,7 +31,6 @@ fi
 # Set the static path for feature branches
 if [[ "${ignored_branches[*]}" != *"$current_branch"* ]]; then
     # https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#building-for-relative-paths
-    S3_URL="http://s3-website-${region}.amazonaws.com/${s3_path}/${current_branch}"
     echo $($JQ "setpath([\"homepage\"]; \"${S3_URL}\")" "package.json") > "package.json"
 fi
 
