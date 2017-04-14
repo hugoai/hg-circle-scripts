@@ -39,7 +39,7 @@ if [[ "${ignored_branches[*]}" != *"$current_branch"* ]]; then
     # https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#building-for-relative-paths
     export PUBLIC_URL="$s3_url"
     # Disable Bugsnag for feature branches.
-    export REACT_APP_BUGSNAG_API_KEY=""
+    echo "REACT_APP_BUGSNAG_API_KEY=''" >> .env
 fi
 
 log "Building static files"
