@@ -17,6 +17,10 @@ s3_path=$1
 s3_url=$2
 current_branch=$3
 
+echo "S3_PATH: $s3_path"
+echo "S3_URL: $s3_url"
+echo "CURRENT_BRANCH: $current_branch"
+
 if [ -n $3 ]; then
     # Default to these..
     ignored_branches=("master" "stage" "live")
@@ -31,6 +35,7 @@ fi
 
 # Set the static path for feature branches
 if [[ "${ignored_branches[*]}" != *"$current_branch"* ]]; then
+    log "Setting homepage for feature branch to \"${s3_url}\""
     # https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#building-for-relative-paths
     echo $($JQ "setpath([\"homepage\"]; \"${s3_url}\")" "package.json") > "package.json"
 fi
