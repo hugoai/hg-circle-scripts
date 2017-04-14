@@ -37,7 +37,7 @@ fi
 if [[ "${ignored_branches[*]}" != *"$current_branch"* ]]; then
     log "Setting homepage for feature branch to \"${s3_url}\""
     # https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#building-for-relative-paths
-    echo $($JQ "setpath([\"homepage\"]; \"${s3_url}\")" "package.json") > "package.json"
+    export PUBLIC_URL="$s3_url"
 fi
 
 log "Building static files"
