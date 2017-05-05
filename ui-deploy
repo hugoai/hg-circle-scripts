@@ -7,7 +7,7 @@ set -e
 #     ui-deploy "<S3_PATH>" "<S3 URL>" "<current branch>" ["<comma separated list of ignored branches>"] ["<region>"]
 #
 # Example:
-#     ui-deploy "hg-cf-web-ui" "https://web-dev.hugoai.com/HGA-1234" "master" "master,stage,live" "us-west-2"
+#     ui-deploy "hg-cf-web-ui" "https://web-dev.hugoai.com/HGA-1234" "master" "master,stage,prod" "us-west-2"
 
 # Load shared utils
 . ./hg-circle-scripts/utils
@@ -23,7 +23,7 @@ echo "CURRENT_BRANCH: $current_branch"
 
 if [ -n $3 ]; then
     # Default to these..
-    ignored_branches=("master" "stage" "live")
+    ignored_branches=("master" "stage" "prod")
 else
     ignored_branches=$(echo $4 | tr "," "\n")
 fi
