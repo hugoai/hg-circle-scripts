@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
-# Installs the AWS CLI tools
+# Configures the AWS CLI tools
 #
 # Usage:
-#     install-awscli ["us-west-2"]
+#     configures-awscli ["us-west-2"]
 
 # Load shared utils
 . ./hg-circle-scripts/utils
@@ -13,9 +13,6 @@ region=$1
 if [ -n $region ]; then
     region="us-west-2"
 fi
-
-log "Installing AWS CLI"
-pip install --upgrade awscli
 
 log "Setting AWS defaults (region, output format)"
 aws --version

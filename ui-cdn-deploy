@@ -11,7 +11,7 @@ set -e
 
 # Load shared utils
 . ./hg-circle-scripts/utils
-bash ./hg-circle-scripts/install-awscli
+bash ./hg-circle-scripts/configure-awscli
 
 log "Creating CDN invalidations"
 aws configure set preview.cloudfront true
