@@ -9,9 +9,6 @@ set -e
 # Load shared utils
 . ./hg-circle-scripts/utils
 
-log "Installing yarn"
-npm install -g yarn
-
 log "Installing dependencies"
 yarn  # Install dependencies first
 
