@@ -7,11 +7,11 @@ set -e
 #     gatekeeper "<current branch>" "<command>" ["<comma separated list of target branches>"]
 #
 # Example:
-#     gatekeeper "$CIRCLE_BRANCH" "echo 'Hello'" ["master,stage,live"]
+#     gatekeeper "$CIRCLE_BRANCH" "echo 'Hello'" ["master,stage,prod"]
 
 if [ -z $3 ]; then
     # Default to these..
-    branches=("master" "stage" "live")
+    branches=("master" "stage" "prod")
 else
     branches=$(echo $3 | tr "," "\n")
 fi
