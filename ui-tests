@@ -12,7 +12,7 @@ set -e
 log "Installing dependencies"
 yarn  # Install dependencies first
 
-log "Running ESLinter"
+log "Running ESLint"
 yarn run eslint .
 
 log "Running tests"
