@@ -21,9 +21,15 @@ wait_for_build() {
             $BUILD_URL)
         lifecycle=$(echo $result | $JQ '.lifecycle')
         if [ $lifecycle == 'finished' ]; then
-            # We've got to a final state, eg. success, failed, canceled etc.
-            log "Breaking out because the job finished"
-            break
+            status=$(echo $result | $JQ '.status')
+            if [ $status == 'success' ] || [ $status ]; then
+                # We've got to a final state, eg. success, failed, canceled etc.
+                log "Breaking out because the job finished successfully: ${status}"
+                break
+            else
+                log "Exiting.. Job finished unsuccessfully with status: ${status}"
+                exit 1
+            fi
         fi
 
         if [ $(date +%s) -gt $timeout_time ]; then
