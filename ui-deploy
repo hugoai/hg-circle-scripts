@@ -47,8 +47,4 @@ yarn run build
 
 # @todo: Once S3 object tagging is out of beta, tag all synced objects with env/purpose
 log "Deploying to S3"
-aws s3 sync build/ "s3://${s3_path}/${current_branch}" --region $region
-cd build/static/js
-for map in *.map; do
-  aws s3api put-object-acl --acl private --bucket s3_path "${s3_path}" --key "${current_branch}/static/js/$map"
-done
+aws s3 sync build/ "s3://${s3_path}/${current_branch}" --region $region --exclude "*.map"
