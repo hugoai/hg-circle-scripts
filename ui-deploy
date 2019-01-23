@@ -50,5 +50,5 @@ log "Deploying to S3"
 aws s3 sync build/ "s3://${s3_path}/${current_branch}" --region $region
 cd build/static/js
 for map in *.map; do
-  aws s3api put-object-acl --acl private --bucket "s3://${s3_path}/${current_branch}/static/js" --key "$map"
+  aws s3api put-object-acl --acl private --bucket s3_path "${s3_path}" --key "${current_branch}/static/js/$map"
 done
