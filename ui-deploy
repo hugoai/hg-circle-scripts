@@ -51,6 +51,7 @@ aws s3 sync build/ "s3://${s3_path}/${current_branch}" \
   --region $region \
   --exclude "*.map" \
   --exclude "*index.html" \
+  --exclude "*info.json" \
   --cache-control "max-age=31536000,public"
 
 # Upload index.html with no-cache policies
@@ -62,3 +63,17 @@ aws s3 cp build/index.html "s3://${s3_path}/${current_branch}/index.html" \
   --content-type text/html \
   --expires "Sat, 01 Jan 2000 00:00:00 GMT" \
   --acl public-read
+
+log "Uploading static/info.json"
+if [[ -f "build/static/info.json" ]]; then
+    # Upload info.json with no-cache policies
+    aws s3 cp build/static/info.json "s3://${s3_path}/${current_branch}/static/info.json" \
+    --region $region \
+    --metadata-directive REPLACE \
+    --cache-control max-age=0,no-cache,no-store,must-revalidate \
+    --content-type text/html \
+    --expires "Sat, 01 Jan 2000 00:00:00 GMT" \
+    --acl public-read
+else
+    log "static/info.json was not found"
+fi
