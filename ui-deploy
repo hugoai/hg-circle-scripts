@@ -80,3 +80,45 @@ if [[ -f "build/static/info.json" ]]; then
 else
     log "static/info.json was not found"
 fi
+
+log "Uploading manifest.json"
+if [[ -f "build/manifest.json" ]]; then
+    # Upload info.json with no-cache policies
+    aws s3 cp build/manifest.json "s3://${s3_path}/${current_branch}/manifest.json" \
+    --region $region \
+    --metadata-directive REPLACE \
+    --cache-control max-age=0,no-cache,no-store,must-revalidate \
+    --content-type text/html \
+    --expires "Sat, 01 Jan 2000 00:00:00 GMT" \
+    --acl public-read
+else
+    log "manifest.json was not found"
+fi
+
+log "Uploading asset-manifest.json"
+if [[ -f "build/asset-manifest.json" ]]; then
+    # Upload info.json with no-cache policies
+    aws s3 cp build/asset-manifest.json "s3://${s3_path}/${current_branch}/asset-manifest.json" \
+    --region $region \
+    --metadata-directive REPLACE \
+    --cache-control max-age=0,no-cache,no-store,must-revalidate \
+    --content-type text/html \
+    --expires "Sat, 01 Jan 2000 00:00:00 GMT" \
+    --acl public-read
+else
+    log "asset-manifest.json was not found"
+fi
+
+log "Uploading service-worker.js"
+if [[ -f "build/service-worker.js" ]]; then
+    # Upload info.json with no-cache policies
+    aws s3 cp build/service-worker.js "s3://${s3_path}/${current_branch}/service-worker.js" \
+    --region $region \
+    --metadata-directive REPLACE \
+    --cache-control max-age=0,no-cache,no-store,must-revalidate \
+    --content-type text/html \
+    --expires "Sat, 01 Jan 2000 00:00:00 GMT" \
+    --acl public-read
+else
+    log "service-worker.js was not found"
+fi
