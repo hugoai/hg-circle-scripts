@@ -52,6 +52,9 @@ aws s3 sync build/ "s3://${s3_path}/${current_branch}" \
   --exclude "*.map" \
   --exclude "*index.html" \
   --exclude "*info.json" \
+  --exclude "*manifest.json" \
+  --exclude "*asset-manifest.json" \
+  --exclude "*service-worker.js" \
   --cache-control "max-age=31536000,public"
 
 # Upload index.html with no-cache policies
