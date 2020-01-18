@@ -116,7 +116,7 @@ if [[ -f "build/service-worker.js" ]]; then
     --region $region \
     --metadata-directive REPLACE \
     --cache-control max-age=0,no-cache,no-store,must-revalidate \
-    --content-type text/javascript \
+    --content-type application/javascript \
     --expires "Sat, 01 Jan 2000 00:00:00 GMT" \
     --acl public-read
 else
