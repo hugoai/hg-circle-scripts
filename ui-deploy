@@ -81,6 +81,20 @@ else
     log "static/info.json was not found"
 fi
 
+log "Uploading apple-app-site-association"
+if [[ -f "build/apple-app-site-association" ]]; then
+    # Upload apple-app-site-association with no-cache policies
+    aws s3 cp build/apple-app-site-association "s3://${s3_path}/${current_branch}/apple-app-site-association" \
+    --region $region \
+    --metadata-directive REPLACE \
+    --cache-control max-age=0,no-cache,no-store,must-revalidate \
+    --content-type application/json \
+    --expires "Sat, 01 Jan 2000 00:00:00 GMT" \
+    --acl public-read
+else
+    log "static/apple-app-site-association was not found"
+fi
+
 log "Uploading manifest.json"
 if [[ -f "build/manifest.json" ]]; then
     # Upload manifest.json with no-cache policies
