@@ -64,7 +64,6 @@ aws s3 cp build/index.html "s3://${s3_path}/${current_branch}/index.html" \
   --metadata-directive REPLACE \
   --cache-Control: max-age=0,s-maxage=31556952,must-revalidate \
   --content-type text/html \
-  --expires "Sat, 01 Jan 2000 00:00:00 GMT" \
   --acl public-read
 
 log "Uploading static/info.json"
