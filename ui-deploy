@@ -62,7 +62,7 @@ log "Uploading index.html"
 aws s3 cp build/index.html "s3://${s3_path}/${current_branch}/index.html" \
   --region $region \
   --metadata-directive REPLACE \
-  --cache-control: max-age=0,s-maxage=31556952,must-revalidate \
+  --cache-control max-age=0,s-maxage=31556952,must-revalidate \
   --content-type text/html \
   --acl public-read
 
