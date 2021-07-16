@@ -15,4 +15,4 @@ bash ./hg-circle-scripts/configure-awscli
 
 log "Creating CDN invalidations"
 aws configure set preview.cloudfront true
-aws cloudfront create-invalidation --distribution-id "$1" --paths /index.html
+aws cloudfront create-invalidation --distribution-id "$1" --paths /index.html /static/info.json
