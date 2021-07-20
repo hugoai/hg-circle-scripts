@@ -15,7 +15,7 @@ bash ./hg-circle-scripts/configure-awscli
 
 log "Creating CDN invalidations"
 aws configure set preview.cloudfront true
-INVALIDATION_ID=$((aws cloudfront create-invalidation --distribution-id "$1" --paths *) | jq -r .Invalidation.Id)
+INVALIDATION_ID=$((aws cloudfront create-invalidation --distribution-id "$1" --paths /*) | jq -r .Invalidation.Id)
 
 log "Created invalidation $INVALIDATION_ID. In Progress..."
 aws cloudfront wait invalidation-completed --id $INVALIDATION_ID --distribution-id $1 
