@@ -11,8 +11,12 @@ set -e
 
 circle_branch=$1
 
-env_branches=("prod" "stage")
+env_branches=("prod" "stage" "alpha" "beta")
 env=$(if [[ "${env_branches[*]}" == *"$circle_branch"* ]]; then echo $circle_branch; else echo 'dev'; fi)
-
+if [[ $env == "alpha" ] ]; then
+    env="stage"
+elif [[ $env == "beta" ]]; then
+    env="prod"
+fi
 # Use printf so we don't append a newline.
 printf $env
