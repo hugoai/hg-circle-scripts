@@ -11,7 +11,7 @@ set -e
 
 if [ -z $3 ]; then
     # Default to these..
-    branches=("master" "stage" "prod")
+    branches=("master" "stage" "prod" "alpha" "beta")
 else
     branches=$(echo $3 | tr "," "\n")
 fi
