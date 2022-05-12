@@ -21,25 +21,9 @@ echo "S3_PATH: $s3_path"
 echo "S3_URL: $s3_url"
 echo "CURRENT_BRANCH: $current_branch"
 
-if [ -n $3 ]; then
-    # Default to these..
-    ignored_branches=("master" "stage" "prod")
-else
-    ignored_branches=$(echo $4 | tr "," "\n")
-fi
-
 region=$5
 if [ -n $region ]; then
     region="us-west-2"
-fi
-
-# Set the static path for feature branches
-if [[ "${ignored_branches[*]}" != *"$current_branch"* ]]; then
-    log "Setting homepage for feature branch to \"${s3_url}\""
-    # https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#building-for-relative-paths
-    export PUBLIC_URL="$s3_url"
-    # Disable Bugsnag for feature branches.
-    echo "REACT_APP_BUGSNAG_API_KEY=" >> .env
 fi
 
 log "Building static files"
